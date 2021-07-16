@@ -3,7 +3,7 @@ git clone https://github.com/nurlybek-dev/test-blog.git
 ```
 Перейдя в папку проекта последовательно запустить
 ```
-docker-compose up
+docker-compose up -d
 docker-compose exec web python manage.py migrate
 docker-compose exec web python manage.py createsuperuser
 ```
