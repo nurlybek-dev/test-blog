@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for post in posts %}
+<div class="post">
+    <div class="post-head">
+        <div>
+            <div class="post-title">{{ post.title }}</div>
+            <div class="post-author">
+                <a href="{% url 'blog_detail' pk=post.author.id %}">{{ post.author.username }}</a> - 
+                <small>{{ post.created_at }}</small>
+            </div>
+        </div>
+    
+        <div class="actions">
+            {% if not post.is_readed %}
+            <form action="{% url 'mark_readed' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="post_id" value="{{ post.id }}">
+                <button type="submit">Mark readed</button>
+            </form>
+            {% else %}
+            <div>You readed this post</div>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <div class="post-body">
+        <div class='post-text'>
+            {{ post.text }} 
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+{% endblock content %}
+

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="blog-actions">
+{% if author != user %}
+    {% if is_subscribed %}
+        <form action="{% url 'unsubscribe' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="author_id" value="{{ author.id }}">
+            <button type="submit">Unsubscribe</button>
+        </form>
+    {% else %}
+        <form action="{% url 'subscribe' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="author_id" value="{{ author.id }}">
+            <button type="submit">Subscribe</button>
+        </form>
+    {% endif %}
+{% else %}
+    <a href="{% url 'post_new' %}">New post</a>
+{% endif %}
+</div>
+{% for post in author.posts.all %}
+
+<div class="post">
+    <div class="post-head">
+        <div>
+            <div class="post-title">{{ post.title }}</div>
+            <div class="post-author">
+                <a href="{% url 'blog_detail' pk=post.author.id %}">{{ post.author.username }}</a> - 
+                <small>{{ post.created_at }}</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-body">
+        <div class='post-text'>
+            {{ post.text }} 
+        </div>
+    </div>
+</div>
+
+
+
+{% endfor %}
+
+{% endblock content %}
